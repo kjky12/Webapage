@@ -1,0 +1,41 @@
+<div class="container-fluid">
+  <div class="row">
+    <nav class="navbar navbar-default navbar-custom">
+      <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a [routerLink]="['/']" class="navbar-brand">Angular App</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li [routerLinkActive]="['active']">
+              <a [routerLink]="['/','users']">Users</a>
+            </li>
+          </ul>
+          <!-- authService.isLoggedIn()를 사용해서 로그인이 되었는지 아닌지를 알 수 있고, 
+            이를 사용해서 Login과 Sign Up은 로그인이 되지 않은 경우에만, 
+            Logout은 로그인이 된 경우에만 보이도록 합시다. -->
+          <ul class="nav navbar-nav navbar-right">
+            <li *ngIf="!authService.isLoggedIn()" [routerLinkActive]="['active']">
+              <a [routerLink]="['/','login']">Login</a>
+            </li>
+            <li *ngIf="!authService.isLoggedIn()" [routerLinkActive]="['active']">
+              <a [routerLink]="['/','users','new']">Sign Up</a>
+            </li>
+            <li *ngIf="authService.isLoggedIn()">
+              <a (click)="authService.logout()" >Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
