@@ -13,13 +13,11 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li [routerLinkActive]="['active']">
-              <a [routerLink]="['/','users']">Users</a>
+            <li >
+              <a [routerLink]="['/','users']" [routerLinkActive]="['active']" >Users</a>
             </li>
           </ul>
-          <!-- authService.isLoggedIn()를 사용해서 로그인이 되었는지 아닌지를 알 수 있고, 
-            이를 사용해서 Login과 Sign Up은 로그인이 되지 않은 경우에만, 
-            Logout은 로그인이 된 경우에만 보이도록 합시다. -->
+          <!-- authService.isLoggedIn()를 사용해서 로그인이 되었는지 아닌지를 알 수 있고,             이를 사용해서 Login과 Sign Up은 로그인이 되지 않은 경우에만,             Logout은 로그인이 된 경우에만 보이도록 합시다. -->
           <ul class="nav navbar-nav navbar-right">
             <li *ngIf="!authService.isLoggedIn()" [routerLinkActive]="['active']">
               <a [routerLink]="['/','login']">Login</a>
@@ -28,7 +26,7 @@
               <a [routerLink]="['/','users','new']">Sign Up</a>
             </li>
             <li *ngIf="authService.isLoggedIn()">
-              <a (click)="authService.logout()" >Logout</a>
+              <a (click)="authService.logout()">Logout</a>
             </li>
           </ul>
         </div>

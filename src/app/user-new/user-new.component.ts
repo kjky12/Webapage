@@ -18,11 +18,11 @@ export class UserNewComponent implements OnInit {
   errorResponse: ApiResponse;
   form: FormGroup;
   formErrors = {
-    'username':'',
-    'name':'',
-    'email':'',
-    'password':'',
-    'passwordConfirmation':'',
+    'username': '',
+    'name': '',
+    'email': '',
+    'password': '',
+    'passwordConfirmation': '',
   };
   formErrorMessages = {
     'username': {
@@ -47,14 +47,14 @@ export class UserNewComponent implements OnInit {
   };
   buildForm(): void { //1
     this.form = this.formBuilder.group({
-      username:["", [Validators.required, Validators.pattern(/^.{4,12}$/)]],
-      name:["", [Validators.required, Validators.pattern(/^.{4,12}$/)]],
-      email:["", [Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
-      password:["", [Validators.required, Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/)]],
-      passwordConfirmation:["", [Validators.required]],
+      username: ["", [Validators.required, Validators.pattern(/^.{4,12}$/)]],
+      name: ["", [Validators.required, Validators.pattern(/^.{4,12}$/)]],
+      email: ["", [Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
+      password: ["", [Validators.required, Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/)]],
+      passwordConfirmation: ["", [Validators.required]],
     }, {
-      validator: this.customValidation, //2
-    });
+        validator: this.customValidation, //2
+      });
 
     this.form.valueChanges.subscribe(data => {
       this.utilService.updateFormErrors(this.form, this.formErrors, this.formErrorMessages);
@@ -64,8 +64,8 @@ export class UserNewComponent implements OnInit {
   customValidation(group: FormGroup) { //3
     var password = group.get('password');
     var passwordConfirmation = group.get('passwordConfirmation');
-    if(password.dirty && passwordConfirmation.dirty && password.value != passwordConfirmation.value){
-        passwordConfirmation.setErrors({'match': true});
+    if (password.dirty && passwordConfirmation.dirty && password.value != passwordConfirmation.value) {
+      passwordConfirmation.setErrors({ 'match': true });
     }
   }
 
@@ -83,15 +83,16 @@ export class UserNewComponent implements OnInit {
 
   submit() {
     this.utilService.makeFormDirtyAndUpdateErrors(this.form, this.formErrors, this.formErrorMessages);
-    if(this.form.valid){
+    if (this.form.valid) {
+
       this.userService.create(this.form.value)
-      .then(data =>{
-        this.router.navigate(['/']);
-      })
-      .catch(response =>{
-        this.errorResponse = response;
-        this.utilService.handleFormSubmitError(this.errorResponse, this.form, this.formErrors);
-      });
+        .then(data => {
+          this.router.navigate(['/']);
+        })
+        .catch(response => {
+          this.errorResponse = response;
+          this.utilService.handleFormSubmitError(this.errorResponse, this.form, this.formErrors);
+        });
     }
   }
 
