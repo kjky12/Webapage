@@ -82,10 +82,17 @@ export class UserNewComponent implements OnInit {
   }
 
   submit() {
-    this.utilService.makeFormDirtyAndUpdateErrors(this.form, this.formErrors, this.formErrorMessages);
-    if (this.form.valid) {
+        this.utilService.makeFormDirtyAndUpdateErrors(this.form, this.formErrors, this.formErrorMessages);
 
+    if (this.form.valid) {
+      /*
+      this.user.username = this.form.value.username;
+      this.user.password = this.form.value.password;
+      this.user.name = this.form.value.name;
+      this.user.email = this.form.value.email;
+      */
       this.userService.create(this.form.value)
+      //this.userService.create(this.user)
         .then(data => {
           this.router.navigate(['/']);
         })

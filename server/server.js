@@ -5,6 +5,12 @@ var path    = require('path');
 var mongoose   = require('mongoose');
 var bodyParser = require('body-parser');
 
+//! 패스포트
+var flash     = require("connect-flash");
+var session    = require("express-session");
+var passport   = require("./config/passport"); // 1
+
+
 // Database
 mongoose.Promise = global.Promise;
 //mongoose.connect(process.env.MONGO_DB, {useMongoClient: true});
@@ -16,6 +22,18 @@ db.once('open', function () {
 db.on('error', function (err) {
   console.log('DB ERROR:', err);
 });
+
+
+// Passport // 2
+app.use(passport.initialize());
+app.use(passport.session()); 
+
+// Custom Middlewares // 3
+app.use(function(req,res,next){
+ res.locals.isAuthenticated = req.isAuthenticated();
+ res.locals.currentUser = req.user;
+ next();
+})
 
 // Middlewares
 /*
@@ -32,8 +50,27 @@ app.use(function (req, res, next) {
   next();
 });
 
+
+
+
 // API
-app.use('/api/users', require('./api/users')); //*
+/*
+ flash를 초기화 합니다. 이제부터 req.flash라는 함수를 사용할 수 있습니다.
+req.flash(문자열, 저장할_값) 의 형태로 저장할_값(숫자, 문자열, 오브젝트등 어떠한 값이라도 가능)을 해당 문자열에 저장합니다.
+이때 flash는 배열로 저장되기 때문에 같은 문자열을 중복해서 사용하면 순서대로 배열로 저장이 됩니다.
+req.flash(문자열) 인 경우 해당 문자열에 저장된 값들을 배열로 불러옵니다. 저장된 값이 없다면 빈 배열([])을 return합니다.
+*/ 
+app.use(flash()); 
+/*
+session은 서버에서 접속자를 구분시키는 역할을 합니다. user1과 user2가 웹사이트를 보고 있는 경우 해당 user들을 구분하여 
+서버에서 필요한 값 들(예를 들어 로그인 상태 정보 등등)을 따로 관리하게 됩니다.
+ flash에 저장되는 값 역시 user1이 생성한 flash는 user1에게, user2가 생성한 flash는 user2에게 보여져야 하기 때문에 session이 필요합니다.
+*/
+app.use(session({secret:"MySecret"})); // 
+
+
+app.use('/api/users', require('./api/users'));
+app.use('/api/login', require('./api/login'));
 
 
 // Angular

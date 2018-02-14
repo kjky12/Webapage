@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 
 import { AppRouteModule }    from './app-route.module';
+import { AuthGuard } from './auth.guard'; 
 
 import { UtilService } from './util.service';
 import { AuthService } from './auth.service';
@@ -20,6 +21,7 @@ import { HomeComponent } from './home/home.component';
 import { ErrorpageComponent } from './errorpage/errorpage.component';
 import { LoginComponent } from './login/login.component';
 import { UserNewComponent } from './user-new/user-new.component';
+import { UserIndexComponent } from './user-index/user-index.component';
 
 
 
@@ -30,7 +32,8 @@ import { UserNewComponent } from './user-new/user-new.component';
     HomeComponent,
     ErrorpageComponent,
     LoginComponent,
-    UserNewComponent
+    UserNewComponent,
+    UserIndexComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +48,7 @@ import { UserNewComponent } from './user-new/user-new.component';
       useClass: RequestInterceptor,
       multi: true,
     }, 
+    AuthGuard,
     UtilService,
     AuthService,
     UserService,

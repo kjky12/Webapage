@@ -12,7 +12,8 @@ import { User } from './user';
 
 @Injectable()
 export class AuthService {
-  private apiBaseUrl = `${environment.apiBaseUrl}/auth`;
+  private apiBaseUrl = `${environment.apiBaseUrl}/login`;
+  //private apiBaseUrl = `${environment.apiBaseUrl}/auth`;
 
   constructor(
     private http: HttpClient,
@@ -21,14 +22,15 @@ export class AuthService {
   ) { }
 
   login(username: string, password: string): Promise<any> { //  login 함수: api call이 성공하면 data(발급된 token)를 localStorage에 'token'으로 저장(여기1)합니다.
-    return this.http.post<ApiResponse>(`${this.apiBaseUrl}/login`, { username: username, password: password })
-      .toPromise()
-      .then(this.utilService.checkSuccess)
-      .then(response => {
-        localStorage.setItem('token', response.data); //여기1
-      })
-      .catch(this.utilService.handleApiError);
+    return this.http.post<ApiResponse>(`${this.apiBaseUrl}/login`,{username:username, password:password})
+              .toPromise()
+              .then(this.utilService.checkSuccess)
+              .then(response => {
+    		localStorage.setItem('token', response.data); //1-1
+              })
+              .catch(this.utilService.handleApiError);
   }
+
 
   me(): Promise<User> { //me 함수: api call이 성공하면 data(user 정보)를 문자열로 변환한 후 localStorage에 'currentUser'로 저장(여기2-1)하고 data를 User로 return(여기2-2)합니다. 만약 api call이 실패하면 logout(여기2-3)합니다.
     return this.http.get<ApiResponse>(`${this.apiBaseUrl}/me`)
