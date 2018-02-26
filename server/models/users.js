@@ -59,10 +59,9 @@ userSchema.methods.authenticate = function (password) {
     console.log(password);
     console.log(user.password);
     console.log("!!!!!!!!!!!!!!!!!");
-    
 
     var returnT = bcrypt.compareSync(password, user.password);
-    console.log(returnT);
+    
     return returnT
 };
 

@@ -35,6 +35,8 @@ app.use(function(req,res,next){
  next();
 })
 
+
+
 // Middlewares
 /*
 Access-Control-Allow-Origin: 요청이 허용되는 url을 route을 제외하고 적습니다. 이외의 url로 부터 오는 요청은 거절됩니다. 단 *은 모든 요청을 허가시킵니다.
@@ -46,7 +48,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.header('Access-Control-Allow-Headers', 'content-type');
+  res.header('Access-Control-Allow-Headers', 'content-type, x-access-token');
   next();
 });
 
@@ -69,7 +71,9 @@ session은 서버에서 접속자를 구분시키는 역할을 합니다. user1�
 app.use(session({secret:"MySecret"})); // 
 
 
+
 app.use('/api/users', require('./api/users'));
+app.use('/api/auth', require('./api/auth'));   
 app.use('/api/login', require('./api/login'));
 
 

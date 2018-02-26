@@ -21,7 +21,8 @@ router.get("/",
 
 
 // Post Login // 3
-router.post("/login",
+//router.post("/login",
+router.post("/",
     function (req, res, next) {
         console.log("TEST2");
         var errors = {};
@@ -39,21 +40,27 @@ router.post("/login",
         console.log("TEST2-3");
 
         if (isValid) {
-            console.log("TEST2-5");
             next();
         } else {
-            console.log("TEST2-4");
             req.flash("errors", errors);
             res.redirect("/login");
         }
         console.log("TEST2-6");
     },
 
-    //! 지금 성공까지 됬어 [20180206 kjky12] 여기서 뭔가 추후로 처리를 해줘야함... 로그인 됬을때의 차이
-    passport.authenticate("local-login", {
-        successRedirect: "/",
-        failureRedirect: "/login"
-    })
+    passport.authenticate('local-login'), function (req, res) {
+
+        // config/passport.js에서 설정한 패스포트 미들웨어 로직이 수행된다.
+        // 인증을 성공하면 200코드를 반환, 실패시 401, Unauthorized를 자동으로 반환한다.
+        console.log("전송!!");
+        //res.send({success : true});
+        res.json({ success: true });
+
+        //res.send(200);
+        //res.sendStatus(200);
+
+        
+    }
 
 );
 

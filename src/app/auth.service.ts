@@ -12,7 +12,8 @@ import { User } from './user';
 
 @Injectable()
 export class AuthService {
-  private apiBaseUrl = `${environment.apiBaseUrl}/login`;
+  //private apiBaseUrl = `${environment.apiBaseUrl}/login`;
+  private apiBaseUrl = `${environment.apiBaseUrl}`;
   //private apiBaseUrl = `${environment.apiBaseUrl}/auth`;
 
   constructor(
@@ -22,13 +23,14 @@ export class AuthService {
   ) { }
 
   login(username: string, password: string): Promise<any> { //  login 함수: api call이 성공하면 data(발급된 token)를 localStorage에 'token'으로 저장(여기1)합니다.
-    return this.http.post<ApiResponse>(`${this.apiBaseUrl}/login`,{username:username, password:password})
-              .toPromise()
-              .then(this.utilService.checkSuccess)
-              .then(response => {
-    		localStorage.setItem('token', response.data); //1-1
-              })
-              .catch(this.utilService.handleApiError);
+    return this.http.post<ApiResponse>(`${this.apiBaseUrl}/login`, { username: username, password: password })
+      .toPromise()
+      .then(this.utilService.checkSuccess)
+      .then(response => {
+        //! [20180216 kjky12 ]뭔가 성고메세지를 보내서 여기까지 들어는 왓어
+        localStorage.setItem('token', response.data); //1-1
+      })
+      .catch(this.utilService.handleApiError);
   }
 
 

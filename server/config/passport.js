@@ -31,11 +31,11 @@ passport.use("local-login",
 
 
           if (user && user.authenticate(password)) { // 3-3
-            console.log("SUCC");
+            console.log("로그인 인증 성공..");
             return done(null, user);
           }
           else {
-            console.log("Fail");
+            console.log("로그인 인증 실패..");
             
             req.flash("username", username);
             req.flash("errors", { login: "Incorrect username or password" });
