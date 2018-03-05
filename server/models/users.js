@@ -42,7 +42,7 @@ var userSchema = mongoose.Schema({
 userSchema.pre("save", function (next) {
     var user = this;
     console.log("설마");
-    
+
     if (!user.isModified("password")) { // 3-1
         return next();
     } else {
@@ -55,13 +55,9 @@ userSchema.pre("save", function (next) {
 userSchema.methods.authenticate = function (password) {
     var user = this;
 
-    console.log("!!!!!!!!!!!!!!!!!");
-    console.log(password);
-    console.log(user.password);
-    console.log("!!!!!!!!!!!!!!!!!");
 
     var returnT = bcrypt.compareSync(password, user.password);
-    
+    console.log(returnT);
     return returnT
 };
 

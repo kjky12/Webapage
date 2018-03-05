@@ -13,8 +13,8 @@ import { User } from './user';
 @Injectable()
 export class AuthService {
   //private apiBaseUrl = `${environment.apiBaseUrl}/login`;
-  private apiBaseUrl = `${environment.apiBaseUrl}`;
-  //private apiBaseUrl = `${environment.apiBaseUrl}/auth`;
+  //private apiBaseUrl = `${environment.apiBaseUrl}`;
+  private apiBaseUrl = `${environment.apiBaseUrl}/auth`;
 
   constructor(
     private http: HttpClient,

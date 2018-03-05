@@ -34,7 +34,9 @@ router.post('/login',
         User.findOne({ username: req.body.username })
             .select({ password: 1, username: 1, name: 1, email: 1 })
             .exec(function (err, user) {
-                if (err) return res.json(util.successFalse(err));
+
+                if (err)
+                    return res.json(util.successFalse(err));
                 else if (!user || !user.authenticate(req.body.password))
                     return res.json(util.successFalse(null, 'Username or Password is invalid'));
                 else {
@@ -42,10 +44,22 @@ router.post('/login',
                         _id: user._id,
                         username: user.username
                     };
-                    var secretOrPrivateKey = process.env.JWT_SECRET;
+
+                    console.log("요청들어온 정보 : " + user);
+                    console.log(payload);
+                    //console.log("환경변수 JWT 토큰 : "process.env.JWT_SECRET);
+
+                    //var secretOrPrivateKey = process.env.JWT_SECRET;
+                    var secretOrPrivateKey = "MySecret";
                     var options = { expiresIn: 60 * 60 * 24 };
+
                     jwt.sign(payload, secretOrPrivateKey, options, function (err, token) {
-                        if (err) return res.json(util.successFalse(err));
+
+                        if (err) {
+                            console.log("실패 전송..!");
+                            return res.json(util.successFalse(err));
+                        }
+                        console.log("성공 전송..!");
                         res.json(util.successTrue(token));
                     });
                 }
@@ -75,10 +89,16 @@ router.get('/refresh', util.isLoggedin,
                         _id: user._id,
                         username: user.username
                     };
-                    var secretOrPrivateKey = process.env.JWT_SECRET;
+                    //var secretOrPrivateKey = process.env.JWT_SECRET;
+                    var secretOrPrivateKey = "MySecret";
                     var options = { expiresIn: 60 * 60 * 24 };
                     jwt.sign(payload, secretOrPrivateKey, options, function (err, token) {
-                        if (err) return res.json(util.successFalse(err));
+                        console.log("리프레시 확인!!")
+                        if (err) {
+                            console.log("실패..")
+                            return res.json(util.successFalse(err));
+                        }
+                        console.log("성공..")
                         res.json(util.successTrue(token));
                     });
                 }

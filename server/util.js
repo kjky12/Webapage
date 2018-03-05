@@ -14,11 +14,11 @@ util.successTrue = function (data) {
 };
 
 util.successFalse = function (err, message) {
-    console.log("YES3");
+    console.log("successFalse 들어옴");
     if (!err && !message) {
         message = 'data not found';
     }
-    console.log(message);
+    console.log("successFalse : " + message);
     return {
         success: false,
         message: message,
@@ -28,7 +28,7 @@ util.successFalse = function (err, message) {
 };
 
 util.parseError = function (errors) {
-    console.log("YES2");
+    console.log("parseError 들어옴");
     var parsed = {};
     if (errors.name == 'ValidationError') {
         for (var name in errors.errors) {
@@ -46,14 +46,15 @@ util.parseError = function (errors) {
 
 // middlewares
 util.isLoggedin = function (req, res, next) {
-    console.log("YES1");
+    console.log("isLoggedin 확인..");
     var token = req.headers['x-access-token'];
-
+    console.log(token);
     if (!token) {
         return res.json(util.successFalse(null, 'token is required!'));
     }
     else {
-        jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
+        jwt.verify(token, "MySecret", function (err, decoded) {
+        //jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
             if (err) {
                 return res.json(util.successFalse(err));
             }

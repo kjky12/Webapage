@@ -74,7 +74,7 @@ app.use(session({secret:"MySecret"})); //
 
 app.use('/api/users', require('./api/users'));
 app.use('/api/auth', require('./api/auth'));   
-app.use('/api/login', require('./api/login'));
+//app.use('/api/login', require('./api/login'));
 
 
 // Angular

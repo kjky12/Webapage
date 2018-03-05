@@ -14,6 +14,7 @@ import { AuthService } from './auth.service';
 })
 export class AppComponent {
   title = 'app';
+  private LOGO = require("./assets/logo.png");
 
   constructor(
     private router: Router,
